@@ -1,3 +1,9 @@
 [submodule "jguegant.github.io"]
 	path = jguegant.github.io
 	url = git@github.com:jguegant/jguegant.github.io.git
+[submodule "Flex"]
+	path = Flex
+	url = https://github.com/alexandrevicenzi/Flex.git
+[submodule "tech.jguegant"]
+	path = tech.jguegant
+	url = git@github.com:jguegant/tech.jguegant.git
