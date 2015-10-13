@@ -1,0 +1,3 @@
+[submodule "jguegant.github.io"]
+	path = jguegant.github.io
+	url = git@github.com:jguegant/jguegant.github.io.git
