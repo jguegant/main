@@ -4,7 +4,7 @@ import argparse
 from git import Repo
 from subprocess import call
 
-REPO_SUFFIX = '.jguegant'
+REPO_SUFFIX = '.blog'
 LIVE_REPO = 'jguegant.github.io'
 BLOG_FOLDER = 'blogs'
 OUTPUT_FOLDER = "output"
