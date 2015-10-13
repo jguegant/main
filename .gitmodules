@@ -7,3 +7,6 @@
 [submodule "tech.blog"]
 	path = tech.blog
 	url = git@github.com:jguegant/tech.blog.git
+[submodule "personal.blog"]
+	path = personal.blog
+	url = git@github.com:jguegant/personal.blog.git
