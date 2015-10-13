@@ -94,6 +94,7 @@ def moveToLiveRepoAndPush(blogName, blogRepoName, lastCommitMessage):
     print("Pushing [{}].".format(LIVE_REPO))
     liveRepo.remotes.origin.push(liveRepo.head)
 
+
 def deployBlog(name):
     print("Deploying the blog [{}]".format(name))
     repoName = name + REPO_SUFFIX

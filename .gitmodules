@@ -4,3 +4,6 @@
 [submodule "Flex"]
 	path = Flex
 	url = https://github.com/alexandrevicenzi/Flex.git
+[submodule "tech.blog"]
+	path = tech.blog
+	url = git@github.com:jguegant/tech.blog.git
