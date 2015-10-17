@@ -2,6 +2,7 @@
 
 import argparse
 from git import Repo
+import logging
 from subprocess import call
 
 REPO_SUFFIX = '.blog'
@@ -14,7 +15,7 @@ def checkRepoStatus(repo, name):
     branchName = branch.name
 
     if branchName != 'master':
-        print("You must be on master in [{}] before deployment.".format(name)) 
+        logging.error("You must be on master in [{}] before deployment.".format(name)) 
         return False
 
     countModifiedFiles = len(repo.index.diff(None))
@@ -22,7 +23,7 @@ def checkRepoStatus(repo, name):
     countUntrackedFiles = len(repo.untracked_files)
 
     if countStagedFiles > 0 or countModifiedFiles > 0 or countUntrackedFiles > 0:
-        print("You must commit everything in [{}] before deployment.".format(name)) 
+        logging.error("You must commit everything in [{}] before deployment.".format(name)) 
         return False
 
     return True
@@ -38,26 +39,26 @@ def prepareBlogRepo(name):
         return False, ""
 
     # Let's push master on origin in case.
-    print("Pushing [{}].".format(name))
+    logging.info("Pushing [{}].".format(name))
     repo.remotes.origin.push(repo.head)
 
     # Clean first.
-    print("Executing make clean in [{}].".format(name))
+    logging.info("Executing make clean in [{}].".format(name))
     result = call("cd {}; make clean".format(name), shell=True)
     
     if result != 0:
-        print("Error while cleaning [{}].".format(name)) 
+        logging.error("Error while cleaning [{}].".format(name)) 
         return False, ""
     
 
-    print("Executing make publish in [{}].".format(name))
+    logging.info("Executing make publish in [{}].".format(name))
     result = call("cd {}; make publish".format(name), shell=True)
 
     if result != 0:
-        print("Error while publishing [{}].".format(name)) 
+        logging.error("Error while publishing [{}].".format(name)) 
         return False, ""
 
-    return True, branch.commit.message
+    return True, branch.commit.message + " - " + branch.commit.hexsha
 
 
 def moveToLiveRepoAndPush(blogName, blogRepoName, lastCommitMessage):
@@ -73,30 +74,26 @@ def moveToLiveRepoAndPush(blogName, blogRepoName, lastCommitMessage):
     branch = liveRepo.active_branch
     branchName = branch.name
 
-    if branchName != 'master':
-        print("You must be on master in [{}}] before deployment.".format(LIVE_REPO)) 
-        return False, ""
 
-
-    print("Cleaning {}".format(liveBlogFolder))
+    logging.info("Cleaning {}".format(liveBlogFolder))
     call("rm -rf {}".format(liveBlogFolder), shell=True)
 
-    print("Copying {} into {}".format(blogOutputFolder, liveBlogFolder))
+    logging.info("Copying {} into {}".format(blogOutputFolder, liveBlogFolder))
     call("cp -R {} {}".format(blogOutputFolder, liveBlogFolder), shell=True)
 
 
     commitMessage = "[Deployement of {}] {}".format(blogRepoName, lastCommitMessage)
-    print("Creating a commit for [{}]: {}".format(blogName, commitMessage))
+    logging.info("Creating a commit for [{}]: {}".format(blogName, commitMessage))
     liveRepo.git.add(BLOG_FOLDER)
     index.commit(commitMessage)
 
     # Let's push master on origin in case.
-    print("Pushing [{}].".format(LIVE_REPO))
+    logging.info("Pushing [{}].".format(LIVE_REPO))
     liveRepo.remotes.origin.push(liveRepo.head)
 
 
 def deployBlog(name):
-    print("Deploying the blog [{}]".format(name))
+    logging.info("Deploying the blog [{}]".format(name))
     repoName = name + REPO_SUFFIX
     valid, lastCommitMessage = prepareBlogRepo(repoName)
 
@@ -107,6 +104,7 @@ def deployBlog(name):
 
 
 def main():
+    logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(message)s')
     parser = argparse.ArgumentParser(description='Deploy one of the blog.')
     parser.add_argument('blogname', metavar='NAME', type=str, help='the name of the blog you wish to deploy (tech, personal).', default="tech")
 
