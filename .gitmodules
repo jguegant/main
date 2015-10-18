@@ -3,7 +3,7 @@
 	url = git@github.com:jguegant/jguegant.github.io.git
 [submodule "Flex"]
 	path = Flex
-	url = https://github.com/alexandrevicenzi/Flex.git
+	url = git@github.com:jguegant/Flex.git 
 [submodule "tech.blog"]
 	path = tech.blog
 	url = git@github.com:jguegant/tech.blog.git
