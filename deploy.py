@@ -62,6 +62,7 @@ def prepareBlogRepo(name):
 
 
 def moveToLiveRepoAndPush(blogName, blogRepoName, lastCommitMessage):
+    logging.info("Moving to live repo")
     liveBlogFolder = "./{}/{}/{}".format(LIVE_REPO, BLOG_FOLDER, blogName)
     blogOutputFolder = "./{}/{}".format(blogRepoName, OUTPUT_FOLDER)
 
