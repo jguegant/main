@@ -52,7 +52,7 @@ def prepareBlogRepo(name):
     
 
     logging.info("Executing make publish in [{}].".format(name))
-    result = call("cd {}; make publish".format(name), shell=True)
+    result = call("export LC_ALL=C; cd {}; make publish".format(name), shell=True)
 
     if result != 0:
         logging.error("Error while publishing [{}].".format(name)) 
