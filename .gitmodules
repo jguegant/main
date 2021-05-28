@@ -10,3 +10,6 @@
 [submodule "personal.blog"]
 	path = personal.blog
 	url = git@github.com:jguegant/personal.blog.git
+[submodule "pelican-plugins"]
+	path = pelican-plugins
+	url = https://github.com/getpelican/pelican-plugins
